@@ -26,16 +26,36 @@ int main(int argc, char** argv) {
     { 4, 62, 98, 27, 23,  9, 70, 98, 73, 93, 38, 53, 60,  4, 23}
   };
 
-  int cursor = 0;
-  int sum = pyramid[0][0];
-  cout << "Traversed " << pyramid[0][0] << " at {0,0}" << endl;
-  for (int i = 1; i < PYRAMID_ROWS; i++) {
-    cursor += pyramid[i][cursor + 1] > pyramid[i][cursor] ? 1 : 0;
-    cout << "Traversed " << pyramid[i][cursor] << " at {" << i << "," << cursor << "}" << endl;
-    sum += pyramid[i][cursor];
+  int sums[PYRAMID_ROWS] = {0};
+  for (int i = 0; i < PYRAMID_ROWS; i++) {
+    int cursor = i;
+    cout << "* Beginning route from {" << PYRAMID_ROWS - 1 << "," << i << "}" << endl;
+    for (int j = PYRAMID_ROWS - 1; j >= 0; j--) {
+      if (cursor > 0 && cursor < j && pyramid[j][cursor - 1] > pyramid[j][cursor]) {
+        cursor--;
+      }
+      if (cursor > j) {
+        cursor = j;
+      }
+      sums[i] += pyramid[j][cursor];
+      cout << pyramid[j][cursor] << " at {" << j << "," << cursor << "} (sum: " << sums[i] << ")" << endl;
+    }
+    cout << "* Ending route from {" << PYRAMID_ROWS - 1 << "," << i << "}" << endl;
   }
 
-  cout << "Sum of highest path: " << sum << endl;
+  int bestRoute;
+  int bestRouteLength = 0;
+  cout << "All routes: ";
+  for (int i = 0; i < PYRAMID_ROWS; i++) {
+    cout << sums[i] << ", ";
+    if (sums[i] > bestRouteLength) {
+      bestRouteLength = sums[i];
+      bestRoute = i;
+    }
+  }
+  cout << endl;
+
+  cout << "Best route is from {" << PYRAMID_ROWS - 1 << "," << bestRoute << "} with sum of " << bestRouteLength << endl;
 
   return 0;
 }
