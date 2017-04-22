@@ -8,37 +8,52 @@ using namespace std;
 
 int target = 1000000;
 
-void permutate(int digits[], int n) {
-  int carry = 1;
-  for (int i = n - 1; i >= 0; i--) {
-    if ((digits[i] += carry) >= n) {
-      carry = digits[i] / n;
-      digits[i] %= n;
-    }
-  }
-}
-
-bool isPermutation(int digits[], int n) {
-  bool seen[DIGITS] = {false};
-  for (int i = 0; i < n; i++) {
-    if (seen[i]) {
-      return false;
-    }
-    seen[i] = true;
-  }
-  for (int i = 0; i < n; i++) {
-    if (!seen[i]) {
-      return false;
-    }
-  }
-  return true;
-}
-
 void printPermutation(int digits[], int n) {
-  for (int i = 0; i < DIGITS; i++) {
+  for (int i = 0; i < n; i++) {
     cout << digits[i];
   }
   cout << endl;
+}
+
+void reverse(int digits[], int n) {
+  for (int i = 0; i < n / 2; i++) {
+    int temp = digits[n - i - 1];
+    digits[n - i - 1] = digits[i];
+    digits[i] = temp;
+  }
+}
+
+void permutate(int digits[], int n) {
+  int x = -1;
+  for (int i = n - 1; i > 0; i--) {
+    if (digits[i - 1] < digits[i]) {
+      x = i - 1;
+      break;
+    }
+  }
+
+  // There are no more permutations -- bail out.
+  if (x == -1) {
+    return;
+  }
+
+  int y = -1;
+  for (int i = n - 1; i >= 0; i--) {
+    if (digits[x] < digits[i]) {
+      y = i;
+      break;
+    }
+  }
+
+  if (y == -1) {
+    return;
+  }
+
+  int temp = digits[x];
+  digits[x] = digits[y];
+  digits[y] = temp;
+
+  reverse(&digits[x + 1], n - x - 1);
 }
 
 int main(int argc, char** argv) {
@@ -46,13 +61,9 @@ int main(int argc, char** argv) {
   for (int i = 0; i < DIGITS; i++) {
     digits[i] = i;
   }
-  int n = 0;
-  for (int i = 0; n < target; i++) {
+  // The starting state is the first permutation.
+  for (int i = 0; i < target - 1; i++) {
     permutate(digits, DIGITS);
-    if (isPermutation(digits, DIGITS)) {
-      printPermutation(digits, DIGITS);
-      n++;
-    }
   }
   cout << "The " << target << "th permutation is: ";
   printPermutation(digits, DIGITS);
