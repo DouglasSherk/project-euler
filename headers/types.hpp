@@ -6,12 +6,17 @@
 
 namespace euler {
 
-int toInt(std::string n) {
+long long toInt(std::string n) {
   std::stringstream strstream;
   strstream << n;
-  int n_int;
+  long long n_int;
   strstream >> n_int;
   return n_int;
+}
+
+long long reverseInt(long long n) {
+  std::string n_str = std::to_string(n);
+  return toInt(std::string(n_str.rbegin(), n_str.rend()));
 }
 
 }
