@@ -1,6 +1,4 @@
 #include <iostream>
-#include <unordered_set>
-#include <climits>
 
 #include "headers/euler.hpp"
 
