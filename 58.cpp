@@ -11,53 +11,46 @@ const float MIN_PERCENTAGE = 0.1f;
 typedef unsigned long long ull;
 
 int main(int argc, char** argv) {
-  std::cout << "allocating" << std::endl;
   auto spiral = euler::generateSpiral<ull>(SPIRAL_SIZE);
-  std::cout << "allocated" << std::endl;
   int center = SPIRAL_SIZE / 2;
+
+  int numPrimes = 0;
+  int totalDiagonals = 0;
 
   int i = 0;
   while (++i) {
-    int size = i * 2 + 1;
+    totalDiagonals += 4;
 
-    int numPrimes = 0;
-    float totalDiagonals = 0.0f;
-
-    for (int j = 1; j <= size / 2; j++) {
-      totalDiagonals += 4.0f;
-
-      // X--
-      // - -
-      // ---
-      if (euler::isPrime(spiral[center - j][center - j])) {
-        numPrimes++;
-      }
-
-      // ---
-      // - -
-      // X--
-      if (euler::isPrime(spiral[center + j][center - j])) {
-        numPrimes++;
-      }
-
-      // ---
-      // - -
-      // --X
-      if (euler::isPrime(spiral[center + j][center + j])) {
-        numPrimes++;
-      }
-
-      // --X
-      // - -
-      // ---
-      if (euler::isPrime(spiral[center - j][center + j])) {
-        numPrimes++;
-      }
+    // X--
+    // - -
+    // ---
+    if (euler::isPrime(spiral[center - i][center - i])) {
+      numPrimes++;
     }
 
-    std::cout << "Ratio is " << numPrimes / totalDiagonals << std::endl;
+    // ---
+    // - -
+    // X--
+    if (euler::isPrime(spiral[center + i][center - i])) {
+      numPrimes++;
+    }
 
-    if (numPrimes / totalDiagonals < MIN_PERCENTAGE) {
+    // ---
+    // - -
+    // --X
+    if (euler::isPrime(spiral[center + i][center + i])) {
+      numPrimes++;
+    }
+
+    // --X
+    // - -
+    // ---
+    if (euler::isPrime(spiral[center - i][center + i])) {
+      numPrimes++;
+    }
+
+    if (double(numPrimes) / double(totalDiagonals) < MIN_PERCENTAGE) {
+      int size = i * 2 + 1;
       std::cout << "Number of primes less than " << MIN_PERCENTAGE * 100 << "% happens at "
                 << "spiral of size " << size << std::endl;
       return 0;

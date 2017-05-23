@@ -50,8 +50,7 @@ bool isPrime(T n, int numTests = NUM_PRIMALITY_TESTS) {
     T res = power<T>(a, temp, n);
 
     while (temp != n - 1 && res != 1 && res != n - 1) {
-      res *= res;
-      res %= n;
+      res = mulmod(res, res, n);
       temp *= 2;
     }
 

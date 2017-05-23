@@ -16,17 +16,47 @@ struct fraction {
 };
 
 template <class T>
-T power(T n, T k, T modulo = 0) {
-  T sum = 1;
+T mulmod(T a, T b, T modulo) {
+  T x = 0, y = a % modulo;
 
-  for (T i = 0; i < k; i++) {
-    sum *= n;
-    if (modulo) {
-      sum %= modulo;
+  while (b > 0){
+    if (b % 2 == 1) {
+      x = (x + y) % modulo;
     }
+
+    y = (y * 2) % modulo;
+    b /= 2;
   }
 
-  return sum;
+  return x % modulo;
+}
+
+template <class T>
+T power(T n, T k, T modulo = 0) {
+  T x = 1, y = n;
+
+  while (k > 0) {
+    if (k % 2 == 1) {
+      x = (x * y);
+
+      if (modulo) {
+        x %= modulo;
+      }
+    }
+
+    y = (y * y);
+    if (modulo) {
+      y %= modulo;
+    }
+
+    k /= 2;
+  }
+
+  if (modulo) {
+    x %= modulo;
+  }
+
+  return x;
 }
 
 template <class T>
