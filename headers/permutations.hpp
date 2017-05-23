@@ -51,13 +51,13 @@ bool nextPermutation(int& n) {
 }
 
 bool isPermutation(const std::string& a, const std::string& b) {
-  char charsA[UCHAR_MAX] = {0}, charsB[UCHAR_MAX] = {0};
+  unsigned char charsA[UCHAR_MAX] = {0}, charsB[UCHAR_MAX] = {0};
 
   for (auto c : a) {
-    charsA[c]++;
+    charsA[(unsigned char)c]++;
   }
   for (auto c : b) {
-    charsB[c]++;
+    charsB[(unsigned char)c]++;
   }
 
   for (int i = 0; i < UCHAR_MAX; i++) {
