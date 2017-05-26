@@ -10,7 +10,7 @@ LIBS = \
 	-lgmp \
 	-lgtest \
 	-isystem ${GTEST_DIR}/include
-CC_FLAGS = -g -ggdb -std=c++14 -Werror -Wall -pedantic $(LIBS)
+CC_FLAGS = -g -ggdb -std=c++14 -Werror -Wall -pedantic -O3 $(LIBS)
 MAKEFLAGS="-j 8"
 
 SRCS=$(wildcard *.cpp)
