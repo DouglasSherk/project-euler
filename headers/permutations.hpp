@@ -43,10 +43,11 @@ bool nextPermutation(std::string& n) {
   return true;
 }
 
-bool nextPermutation(int& n) {
+template <class T>
+bool nextPermutation(T& n) {
   std::string permutation = std::to_string(n);
   bool retVal = nextPermutation(permutation);
-  n = toInt(permutation);
+  n = toInt<T>(permutation);
   return retVal;
 }
 
